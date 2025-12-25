@@ -42,7 +42,7 @@ export function App() {
   const handleLogout = () => {
     logout()
       .then(() => {
-        navigate("/");
+        navigate("/login");
       })
       .catch((error: AxiosError<{ message?: string }>) => {
         setError(error.response?.data?.message ?? "");

@@ -9,7 +9,7 @@ function validateName(value) {
     return "Name is required";
   }
 
-  if (name.length < 2 && !NAME_PATTERN.test(name)) {
+  if (!NAME_PATTERN.test(name)) {
     return "Name is not valid";
   }
 }
@@ -84,7 +84,7 @@ const changeEmail = async (req, res) => {
   }
 
   if (errors.password || errors.newEmail || errors.confirmEmail) {
-    throw ApiError.badRequest();
+    throw ApiError.badRequest('Bad request', errors);
   }
 
   if (newEmail !== confirmEmail) {

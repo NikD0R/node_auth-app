@@ -16,5 +16,5 @@ export const client = new Sequelize({
   host: DB_HOST || 'localhost',
   dialect: 'postgres',
   port: DB_PORT || 5432,
-  password: DB_PASSWORD || '12ND1205',
+  password: DB_PASSWORD,
 })

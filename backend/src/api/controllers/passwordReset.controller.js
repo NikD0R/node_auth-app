@@ -26,10 +26,6 @@ const sendPasswordReset = async (req, res) => {
     throw ApiError.badRequest('Bad request', errors);
   }
 
-  if (!email) {
-    throw ApiError.badRequest('Email isn`t valid');
-  }
-
   if (!user) {
     return res.status(200).send({
       message: 'If user exists, we sent email'
@@ -52,10 +48,6 @@ const confirmPasswordReset = async (req, res) => {
 
   if (errors.password || errors.confirmPassword) {
     throw ApiError.badRequest('Bad request', errors);
-  }
-
-  if (!password || !confirmPassword) {
-    throw ApiError.badRequest('All fields are required');
   }
 
   if (password !== confirmPassword) {

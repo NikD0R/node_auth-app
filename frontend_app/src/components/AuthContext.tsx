@@ -53,10 +53,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   async function logout() {
-    await authService.logout();
-
-    accessTokenService.remove();
     setCurrentUser(null);
+    accessTokenService.remove();
+    await authService.logout();
   }
 
   const value = useMemo(

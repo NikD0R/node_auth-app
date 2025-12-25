@@ -21,7 +21,7 @@ function validateName(value: string) {
     return "Name is required";
   }
 
-  if (name.length < 2 && !NAME_PATTERN.test(name)) {
+  if (!NAME_PATTERN.test(name)) {
     return "Name is not valid";
   }
 }

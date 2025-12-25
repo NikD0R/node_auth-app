@@ -26,6 +26,10 @@ export function createServer() {
     res.send('Server is active');
   });
 
+  app.use((req, res, next) => {
+    next(ApiError.notFound({ path: req.path }));
+  });
+
   app.use(errorMiddleware)
 
   return app;

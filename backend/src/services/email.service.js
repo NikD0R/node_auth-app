@@ -45,8 +45,6 @@ function sendConfirmationEmail(email, token) {
 }
 
 function sendNotificationEmail(email) {
-  const href = `${process.env.CLIENT_HOST}/profile/email`;
-
   const html = `
     <h1>Changed email</h1>
     <p>Email was changed successfully</p>

@@ -17,7 +17,9 @@ function verify(token) {
 }
 
 function signRefresh(user) {
-  const token = jwt.sign(user, process.env.JWT_REFRESH_KEY);
+  const token = jwt.sign(user, process.env.JWT_REFRESH_KEY, {
+    expiresIn: '2d',
+  });
 
   return token;
 }

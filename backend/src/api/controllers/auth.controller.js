@@ -13,7 +13,7 @@ function validateName(value) {
     return "Name is required";
   }
 
-  if (name.length < 2 && !NAME_PATTERN.test(name)) {
+  if (!NAME_PATTERN.test(name)) {
     return "Name is not valid";
   }
 }
@@ -92,6 +92,10 @@ const refresh = async (req, res) => {
   }
 
   const user = await userServices.findByEmail(userData.email);
+
+  if (user.activationToken !== null) {
+    throw ApiError.unathorized('Account is not activated');
+  }
 
   await generateTokens(res, user);
 }

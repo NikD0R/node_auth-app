@@ -13,8 +13,8 @@ function getAllActivated() {
   })
 }
 
-function normalize({ id, email }) {
-  return { id, email };
+function normalize({ id, name, email }) {
+  return { id, name, email };
 }
 
 function findByEmail(email) {
@@ -90,7 +90,9 @@ async function changeEmail(userId, newEmail, password) {
   const repeteadEmail = await User.findOne({ where: { email: newEmail, id: { [Op.ne]: userId } } });
 
   if (repeteadEmail) {
-    throw ApiError.badRequest();
+    throw ApiError.badRequest('Validation error', {
+      email: 'This email is already in use.'
+    });
   }
 
   const oldEmail = user.email;
