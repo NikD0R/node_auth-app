@@ -10,6 +10,12 @@ import {
   validatePassword,
 } from "../utils/validators";
 import { useRef, useState } from "react";
+import type { AxiosError } from "axios";
+
+type ApiErrorResponse = {
+  message?: string;
+  errors?: Record<string, string>;
+};
 
 export const ProfilePage = () => {
   const { currentUser } = useAuth();
@@ -55,7 +61,21 @@ export const ProfilePage = () => {
               helpers.resetForm({ values: { name } });
               showSuccess(setNameSuccess, "Name updated successfully");
             })
-            .catch(() => helpers.setFieldError("name", "Failed to update name"))
+            .catch((err: AxiosError<ApiErrorResponse>) => {
+              const data = err.response?.data;
+
+              if (data?.errors?.name) {
+                helpers.setFieldError("name", data.errors.name);
+                return;
+              }
+
+              if (data?.message) {
+                helpers.setFieldError("name", data.message);
+                return;
+              }
+
+              helpers.setFieldError("name", "Failed to update name");
+            })
             .finally(() => helpers.setSubmitting(false));
         }}
       >
@@ -110,9 +130,23 @@ export const ProfilePage = () => {
               helpers.resetForm();
               showSuccess(setPasswordSuccess, "Password changed successfully");
             })
-            .catch(() =>
-              helpers.setFieldError("oldPassword", "Wrong old password")
-            )
+            .catch((err: AxiosError<ApiErrorResponse>) => {
+              const data = err.response?.data;
+
+              if (data?.errors) {
+                Object.entries(data.errors).forEach(([field, message]) => {
+                  helpers.setFieldError(field, message);
+                });
+                return;
+              }
+
+              if (data?.message) {
+                helpers.setFieldError("oldPassword", data.message);
+                return;
+              }
+
+              helpers.setFieldError("oldPassword", "Server error");
+            })
             .finally(() => helpers.setSubmitting(false));
         }}
       >
@@ -216,7 +250,29 @@ export const ProfilePage = () => {
                 "Email changed successfully. Please check your old email."
               );
             })
-            .catch(() => helpers.setFieldError("password", "Wrong password"))
+            .catch((err: AxiosError<ApiErrorResponse>) => {
+              const data = err.response?.data;
+
+              if (data?.errors) {
+                Object.entries(data.errors).forEach(([field, message]) => {
+                  helpers.setFieldError(field, message);
+                });
+                return;
+              }
+
+              if (data?.message) {
+                if (data.message.toLowerCase().includes("email")) {
+                  helpers.setFieldError("newEmail", data.message);
+                } else if (data.message.toLowerCase().includes("password")) {
+                  helpers.setFieldError("password", data.message);
+                } else {
+                  helpers.setFieldError("newEmail", data.message);
+                }
+                return;
+              }
+
+              helpers.setFieldError("newEmail", "Server error");
+            })
             .finally(() => helpers.setSubmitting(false));
         }}
       >

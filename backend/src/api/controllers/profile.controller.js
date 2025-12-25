@@ -88,7 +88,9 @@ const changeEmail = async (req, res) => {
   }
 
   if (newEmail !== confirmEmail) {
-    throw ApiError.badRequest('Emails don`t match');
+    throw ApiError.badRequest('Emails do not match', {
+      confirmEmail: 'Emails do not match',
+    });
   }
 
   await userServices.changeEmail(req.user.id, newEmail, password);

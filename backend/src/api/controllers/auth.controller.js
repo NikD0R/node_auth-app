@@ -78,6 +78,10 @@ const login = async (req, res) => {
     throw ApiError.badRequest('Wrong password');
   }
 
+  if (user.activationToken !== null) {
+    throw ApiError.unathorized('Account is not activated');
+  }
+
   await generateTokens(res, user);
 }
 
