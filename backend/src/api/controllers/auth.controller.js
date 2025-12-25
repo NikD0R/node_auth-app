@@ -59,7 +59,7 @@ const activate = async (req, res) => {
   }
 
   user.activationToken = null;
-  user.save();
+  await user.save();
   res.send(user);
 }
 

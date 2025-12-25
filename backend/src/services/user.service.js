@@ -27,8 +27,8 @@ async function register(name, email, password) {
   const existUser = await findByEmail(email);
 
   if (existUser) {
-    throw ApiError.badRequest('User is already existed', {
-      email: 'User is already existed'
+    throw ApiError.badRequest('User already exists', {
+      email: 'User already exists'
     });
 
   }
@@ -84,7 +84,7 @@ async function changeEmail(userId, newEmail, password) {
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    throw ApiError.unathorized();
+    throw ApiError.badRequest('Incorrect password');
   }
 
   const repeteadEmail = await User.findOne({ where: { email: newEmail, id: { [Op.ne]: userId } } });

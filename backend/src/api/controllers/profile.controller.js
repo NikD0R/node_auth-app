@@ -37,7 +37,9 @@ const changeName = async (req, res) => {
   }
 
   if (errors.name) {
-    throw ApiError.badRequest('Invalid name');
+    throw ApiError.badRequest('Invalid name', {
+      confirmEmail: 'Invalid name',
+    });
   }
 
   const updatedUser = await userServices.updateName(req.user.id, name);

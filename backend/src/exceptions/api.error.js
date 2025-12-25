@@ -16,7 +16,7 @@ export class ApiError extends Error {
 
   static unathorized(errors) {
     return new ApiError({
-      message: 'Unathorized user',
+      message: 'Unauthorized user',
       errors,
       status: 401,
     })

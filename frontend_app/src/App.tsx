@@ -110,14 +110,13 @@ export function App() {
         <section className="section">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="sign-up" element={<RegistrationPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route
-              path="activation/:email/:activationToken"
-              element={<AccountActivationPage />}
-            />
-
             <Route element={<RequireNonAuth />}>
+              <Route path="sign-up" element={<RegistrationPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route
+                path="activation/:email/:activationToken"
+                element={<AccountActivationPage />}
+              />
               <Route
                 path="password-reset"
                 element={<PasswordResetRequestPage />}

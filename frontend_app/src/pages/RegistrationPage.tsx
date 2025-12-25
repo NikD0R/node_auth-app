@@ -196,7 +196,12 @@ export const RegistrationPage = () => {
                 className={cn("button is-success has-text-weight-bold", {
                   "is-loading": isSubmitting,
                 })}
-                disabled={isSubmitting || !!errors.email || !!errors.password}
+                disabled={
+                  isSubmitting ||
+                  !!errors.email ||
+                  !!errors.password ||
+                  !!errors.name
+                }
               >
                 Sign up
               </button>
